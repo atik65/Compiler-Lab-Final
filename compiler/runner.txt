@@ -1,0 +1,31 @@
+mkdir -p build
+
+# 1. Bison (parser)
+cd parser
+bison -d parser.y -o parser.tab.c
+cd ..
+
+# 2. Flex (lexer)
+cd lexer
+flex lexer.l
+cd ..
+
+# 3. (optional) compile lexer standalone
+cd lexer
+gcc lex.yy.c -o lexer -lfl
+# run lexer to tokens:
+./lexer < ../examples/example1.src > ../build/tokens.txt
+cd ..
+
+# 4. Compile parser + lexer together
+cd parser
+gcc parser.tab.c ../lexer/lex.yy.c -o parser -lfl
+# run parser to create AST
+./parser < ../examples/example1.src > ../build/ast.json
+cd ..
+
+# 5. Python stages
+python3 python_stages/semantic_analyzer.py build/ast.json
+python3 python_stages/intermediate_code.py
+python3 python_stages/optimizer.py
+python3 python_stages/codegen.py

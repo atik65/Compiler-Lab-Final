@@ -1,0 +1,23 @@
+// Example program for Mini Compiler
+// Demonstrates variables, arithmetic, and control flow
+
+int x = 10;
+int y = 20;
+int z;
+
+z = x + y;
+
+int result = z * 2;
+
+if (result > 50) {
+    int a = 100;
+    print(a);
+}
+
+int counter = 0;
+while (counter < 5) {
+    counter = counter + 1;
+}
+
+print(result);
+return result;
